@@ -1,0 +1,226 @@
+from datetime import *
+import random
+class Main :
+
+    def mainmenu(self):
+        contents=[
+           '\n 1 ROOM INFO ',
+           ' 2 BOOKING ',
+           ' 3 ROOM SERVICE (MENU CARD) ',
+           ' 4 RECORD ',
+           ' 5 EXIT '
+        ]
+        for i in contents :
+           print(i)
+        self.choice= int(input("--> "))
+
+main=Main()
+
+class Info(Main) :
+    def roominfo(self):
+        print("\n                    ROOM INFORMATION           ")
+        print("\n STANDARD NON AC \t PRICE : 1000/- (excluding GST) ")
+        print("----------------------------------------------------------------------------")
+        print("Room Amenities :- Double Bedroom with attached washroom , Television ,\n                  Cupboard, Cold and Hot water supply 24/7 ,Balcony.")
+        print("----------------------------------------------------------------------------")
+        print("\n STANDARD AC     \t PRICE : 1500/- (excluding GST) ")
+        print("----------------------------------------------------------------------------")
+        print("Room Amenities :- Double Bedroom with attached washroom , Television ,\n                  Cupboard, Cold and Hot water supply 24/7 ,Balcony\n                  Split/Window AC.")
+        print("----------------------------------------------------------------------------")
+
+info=Info()
+
+class Booking(Main):
+   # cust_name=[]
+    def booking(self):
+        name = input("Name -> ")
+        mob_no = int(input("Phone number -> "))
+        address = input("Address -> ")
+       # Booking.cust_name.append(name)
+    def checkin_out(self):
+        print("checkin date of format (YYYY/MM/DD) : ")
+        a, b, c = input().split('/')
+        yi = int(a)
+        mi = int(b)
+        di = int(c)
+        x = datetime.today()
+        m, n, l = x.strftime("%d"), x.strftime("%m"), x.strftime("%Y")
+        y = int(m)
+        z = int(n)
+        v = int(l)
+        if 0 < di <= 31 and 0 < mi < 13 and yi < 2025:
+            if di >= y and mi >= z and yi >= v:
+
+                print("checkout date of format (YYYY/MM/DD) : ")
+                d, e, f = input().split('/')
+                yo = int(d)
+                mo = int(e)
+                do = int(f)
+
+                if 0 < do <= 31 and 0 < mo < 13 and yo < 2025:
+
+                    if do >= di and mo >= mi and yo >= yi:
+                        print("You are booking room for", do - di, "days", mo - mi, "months", yo - yi, "years")
+                        self.day=do-di
+                        self.month=mo-mi
+                        self.year=yo-yi
+                else:
+                    print("checkout date is not correct")
+
+        else:
+            print("checkin date is not correct")
+
+    def selectroom(self):
+        rooms = [
+            '1 STANDARD NON AC (DOUBLE BED) ',
+            '2 STANDARD AC (DOUBLE BED) '
+        ]
+        for i in rooms:
+            print(i)
+        room_choice = int(input("Select Room Type : "))
+        if room_choice == 1:
+            print("Selected Room Type is STANDARD NON AC")
+            fare = {
+                '\nRoom Base Fare :': 1000*(self.day + 30*self.month + 365*self.year),
+                'GST CHARGES :': (18 / 100) * 1000,
+                'SERVICE CHARGE :': (10 / 100) * 1000,
+                'CONVENIENCE CHARGE :': 150,
+                'DISCOUNT :': (20 / 100) * 1000
+            }
+            for i in fare.keys():
+                print(i, fare.get(i))
+            print("--------------------------------------")
+            total_fare = sum(fare.values()) - 2*(fare.get('DISCOUNT :', -1))
+            print("TOTAL :- ", total_fare)
+        elif room_choice == 2:
+            print("Selected Room Type is STANDARD AC")
+            fare = {
+                '\nRoom Base Fare :': 1500*(self.day + 30*self.month + 365*self.year),
+                'GST CHARGES :': (18 / 100) * 1500,
+                'SERVICE CHARGE :': (10 / 100) * 1500,
+                'CONVENIENCE CHARGE :': 150,
+                'DISCOUNT :': (20 / 100) * 1500
+            }
+            for i in fare.keys():
+                print(i, fare.get(i))
+            print("--------------------------------------")
+            total_fare = sum(fare.values()) - 2*(fare.get('DISCOUNT :', -1))
+            print("TOTAL :- ", total_fare)
+
+
+    def payment(self):
+        payment_choice = int(input("\nenter 0 to continue for payment : "))
+        if payment_choice ==0 :
+            print("\n----------- SELECT PAYMENT MODE -----------\n")
+            payment_method=[
+                " 1 CREDIT/DEBIT CARD ",
+                " 2 UPI ",
+                " 3 NET BANKING ",
+            ]
+            for i in payment_method:
+                print(i)
+            print("\n-------------------------------------------")
+            payment_type=int(input("-> "))
+            if payment_type==1 :
+                card_no=int(input("CARD NUMBER :- "))
+                expiry_year, expiry_month = input("CARD EXPIRY :- ").split('/')
+                card_expiry_year = int(expiry_year)
+                card_expiry_month = int(expiry_month)
+                x = datetime.today()
+                month, year = x.strftime("%m"), x.strftime("%Y")
+                curr_month = int(month)
+                curr_year = int(year)
+                if 0 < card_expiry_month < 13 and card_expiry_year < 2035:
+                    if card_expiry_month >= curr_month and card_expiry_year >= curr_year:
+                        cvv_no = int(input("CVV :- "))
+                        print("------------- YOUR PAYMENT IS SUCCESSFULLY COMPLETED -------------")
+                        print("        ***** congrats your room has been booked :) :) *****")
+                        room_no = random.randint(101, 501)
+                        print("                   YOUR ROOM NUMBER IS :- ", room_no)
+                        self.cust_id = random.randint(10001, 99999)
+                        print("        Please note the below CUSTOMER ID for Future Reference ")
+                        print("        CUSTOMER ID :-",self.cust_id)
+
+                    else:
+                        print("Invalid card details ")
+                        exit(0)
+                else:
+                    print("Invallid card details ")
+                    exit(0)
+            elif payment_type==2 :
+                upi=input("UPI ID -> ")
+                passcode=input("UPI Pin -> ")
+                if len(passcode)== 6 or len(passcode)== 4 :
+                    print("------------- YOUR PAYMENT IS SUCCESSFULLY COMPLETED -------------")
+                    print("        ***** congrats your room has been booked :) :) *****")
+                    room_no = random.randint(101, 501)
+                    print("                   YOUR ROOM NUMBER IS :- ", room_no)
+                    self.cust_id = random.randint(10001, 99999)
+                    print("        Please note the below CUSTOMER ID for Future Reference ")
+                    print("        CUSTOMER ID :-", self.cust_id)
+                else :
+                    print("INCORRECT ATTEMPT !!! Your UPI PIN should be either 4 or 6 digit.")
+                    exit(0)
+            elif payment_type==3 :
+                username=input("username : ")
+                password=input("password : ")
+                print("\n------------- YOUR PAYMENT IS SUCCESSFULLY COMPLETED -------------")
+                print("        ***** congrats your room has been booked :) :) *****")
+                room_no = random.randint(101, 501)
+                print("                   YOUR ROOM NUMBER IS :- ", room_no)
+                self.cust_id = random.randint(10001, 99999)
+                print("        Please note the below CUSTOMER ID for Future Reference ")
+                print("        CUSTOMER ID :-", self.cust_id)
+            else :
+                print("SELECT VALID MODE OF PAYMENT ")
+                Booking.payment(room_book)
+
+
+room_book=Booking()
+
+#class RoomService(Booking) :
+  # def menucard(self):
+ #     pass
+
+
+
+
+
+#service=RoomService()
+
+#class Record(Booking) :
+ #   def record(self):
+#      pass
+
+
+
+
+#rec=Record()
+
+
+while(True) :
+ if __name__ == '__main__':
+    Main.mainmenu(main)
+
+    if main.choice==1 :
+        Info.roominfo(info)
+
+    elif main.choice==2 :
+        Booking.booking(room_book)
+        Booking.checkin_out(room_book)
+        Booking.selectroom(room_book)
+        Booking.payment(room_book)
+
+    #elif main.choice==3 :
+     #   RoomService.menucard(service)
+
+    #elif main.choice==4 :
+     #   Record.record(rec)
+
+    elif main.choice==5 :
+        exit(0)
+
+
+    else :
+        print(" ***** You have selected an invalid option ***** ")
+        exit(0)
